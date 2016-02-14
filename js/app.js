@@ -293,9 +293,15 @@ $(function(){
         {
             name:   'section5',
             text:   '<div class="sectionIn">'+
-                        '<p>献给'+ hash.set('to') +'<br>' +
-                            hash.set('wish') + '<br>' +
-                            '来自' + hash.set('from') +' / 2016-02-14' +
+                        //'<p>献给'+ hash.set('to') +'<br>' +
+                            //hash.set('wish') + '<br>' +
+                            //'来自' + hash.set('from') +' / 2016-02-14' +
+
+                        '<p>献给<span id="hashTo"></span><br>' +
+                            '<span id="hashWish"></span><br>' +
+                            '来自<span id="hashFrom"></span> / 2016-02-14' +
+
+
                         '</p>' +
                         '<img src="img/qrcode.gif" width="220" height="220" class="qrcode" /> 扫码或微信长按二维码分享 <br>' +
                         '<div class="license">' +
@@ -323,9 +329,16 @@ $(function(){
        }
     ];
 
-    $('title').append(hash.set('to') + '--来自' + hash.set('from'));
     $('#section5')[0].innerHTML = dom[0].text;
     $('#section6')[0].innerHTML = dom[1].text;
+
+
+    // unicode
+    $('#hashTo').text(hash.set('to'));
+    $('#hashWish').text(hash.set('wish'));
+    $('#hashFrom').text(hash.set('from'));
+
+    $('title').append($('#hashTo').text() + '--来自' + $('#hashFrom').text());
 
     /*
     2016-02-14-23:22 备忘

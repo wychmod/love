@@ -1,8 +1,7 @@
 ﻿/* css/app.css */
 @import "../node_modules/normalize.css/normalize.css";
 body,
-div,
-span {
+div {
     box-sizing: border-box;
     position: relative;
     display: flex;
