@@ -1,53 +1,351 @@
 ﻿// @St. 2016-01-27-17.14
 //      2016-02-13-08.36
+//      2016-02-14-21.06
+
 // init controller
 //var controller = new ScrollMagic.Controller();
+var defaultName = {
+    title: 'For my honey',
+    from: '阿木',
+    to:   '我最亲爱的老婆阿紫～',
+    wish: '情人节快乐！'
+};
+
+var hashKey = {
+    key:     '?d~',
+    // symbol: {
+    //     start:  '#/',
+    //     key:    '~',
+    //     space:  '&'
+    // },
+    from:    'f=',
+    to:      't=',
+    wish:    'w='
+};
+
+// var defaultHash = hashKey.symbol.start + hashKey.key  +
+//                   hashKey.symbol.key   + hashKey.from + defaultName.from +
+//                   hashKey.symbol.space + hashKey.to   + defaultName.to +
+//                   hashKey.symbol.space + hashKey.wish + defaultName.wish;
+//
+// console.log(defaultHash);
+
+//var defaultMaxNum   = 5;
+// var noMoreBtn       = '<li class="add disable"><div>暂无更多</div></li>';
+// var noMoreBtnAlbum  = '<div class="add addAlbum disable"><div>暂无更多</div></div>';
+//
+// var timeoutOnloadData;
+// var timeout;
+// var timeout2;
+// var timeout3;
+// var timeout4;
+
+var href = {
+    convert: function(toggle){
+
+        var array = [];
+        var url;
+        var href;
+        var key = '?';
+        var hrefKey;
+
+        console.log(toggle);
+
+        if (!toggle || toggle ==='go' || toggle === 'off') {
+            array = location.hash.match(/\d+/g);
+            url = homepageMobile + key + array;
+
+            console.log('off: ' + url);
+
+            return url;
+        }
+
+        if (toggle === 'back' || toggle === 'on') {
+            href    = location.href;
+            hrefKey = href.indexOf(key);
+            if (hrefKey !== -1) {
+                array = href.slice(hrefKey + 1).split(',');
+
+                console.log(array);
+
+                url = homepage + hashKey.from + array[0] + hashKey.to + array[1] + hashKey.item + array[2] + hashKey.album + array[3];
+
+                console.log('back: ' + url);
+
+
+            }
+        }
+        else {
+            url = homepage + defaultHash;
+        }
+
+
+        return url;
+        //console.log('href.convert done!: ' + url);
+
+        //return url;
+    }
+};
+
+
+// // 初始化判断hash和href (需要重新 逻辑关系可能会有问题 @2015-12-01-17.23)
+// (function (){
+//     //var hash    = location.hash;
+//     //var href = location.href;
+//     var loc     = location.href;
+//     var cons    = loc.indexOf('?');
+//     var cons2   = loc.slice(cons + 1);
+//     var cons3   = cons2.indexOf(hashKey.key);
+//
+//     console.log('cons: ' + cons);
+//     console.log('cons2: ' + cons2);
+//     console.log('cons>0 && cons2!==: ' + cons>0 && cons2!=='');
+//     console.log('cons3' + cons3);
+//
+//
+//
+//     if (cons>0 && cons2!=='') {
+//         console.log('cons3 === -1: ' + cons3 === -1);
+//
+//
+//         alert(href.convert('back'));
+//
+//         if (cons3 === -1) {
+//
+//             console.log(href.convert('back'));
+//
+//             self.location.href = href.convert('back');
+//         }
+//
+//     }
+//     else {
+//         console.log('常识修改hash失败');
+//     }
+//
+// })();
+
+
+//hash监听
+// var locator = {
+//     start: function (handler) {
+//         window.onhashchange = handler;
+//         handler();
+//     },
+//     stop: function () {
+//         window.onhashchange = null;
+//     }
+// };
+
+// //路由规则
+// var rules = {
+//     // path => Controller
+// };
+// var router = {
+//     route: function (request) {
+//
+//         console.log('request: ' + request);
+//
+//         var path = request.path;
+//
+//         console.log('request: ' + rules[path]);
+//
+//         if (rules[path]) {
+//             return rules[path];
+//         }
+//         //console.log(404);
+//         //backHomePage();
+//     },
+//     addRule: function (path, Controller) {
+//         rules[path] = Controller;
+//     }
+// };
+var url = {
+    parse: function (hash) {
+        var hash = window.location.href;
+
+        //console.log(hash.lastIndexOf(hashKey.key));
+
+
+        // var newHash = '';
+        // if (hash.indexOf('amp;')) {
+        //     newHash = hash.replace('amp;','');
+        // }
+        // else {
+        //     newHash = hash;
+        // }
+        var newHash = hash;
+        //console.log('newHash: ' + newHash);
+        //var queryIndex = newHash.indexOf(hashKey.symbol.key);
+        var key = '?d=';
+        var keyLen = key.length;
+
+        console.log(keyLen);
+
+        var queryIndex = newHash.lastIndexOf(key);
+
+        console.log(newHash.slice(queryIndex + keyLen));
+
+        var query = {};
+        if (queryIndex !== -1) {
+            query = newHash
+                .slice(queryIndex + keyLen) //'?d~'
+                .split('&')
+                .reduce(function (result, item) {
+                        item = item.split('=');
+                        if (item[0]) {
+                            result[item[0]] = item[1];
+                        }
+                        return result;
+                    }, query);
+            newHash = newHash.slice(0, queryIndex);
+        }
+
+        // return {
+        //     //path:  newHash.slice(1),
+        //     //query: query
+        // };
+        return query;
+
+
+    }
+};
+// var rules = [{
+//     hash:    hashKey.key,
+//     handler: MVCController
+// }];
+//
+// rules.forEach(function (rule) {
+//     console.log(rule);
+//     router.addRule(rule.hash, rule.handler);
+// });
+
+
+
+
+// var hash = {
+//     cons: url.parse(location.hash),
+//     to: function(){
+//         var cons = this.cons;
+//         var _defaultName = defaultName.to;
+//
+//         console.log(cons);
+//         console.log(typeof _defaultName);
+//
+//         if (cons && cons !== _defaultName) {
+//             return cons;
+//         }
+//         else {
+//             return _defaultName;
+//         }
+//     },
+//     from: function(){
+//
+//     },
+//     wish: function(){
+//
+//     }
+//
+// };
+
+var hash = {
+    //query: url.parse(location.hash),
+    query: url.parse(),
+    judge: function(cons, defaultName){
+        //console.log(cons !== defaultName);
+        if(cons !== defaultName){
+            return cons;
+        }
+        else {
+            return defaultName;
+        }
+    },
+    set: function(key){
+        var query = this.query;
+        //console.log(key);
+        //console.log(query);
+        if (key){
+            if (key === 'to'){
+                return this.judge(query.t, defaultName.to);
+            }
+            else if (key === 'from') {
+                return this.judge(query.f, defaultName.from);
+            }
+            else if (key === 'wish') {
+                return this.judge(query.w, defaultName.wish);
+            }
+        }
+    }
+};
+
+
 $(function(){
+
+    // var query        = request.query;
+    // var from         = query.from;
+    // //var to      = query.to;
+    // //var item         = query.item;
+    // var to           = query.to;
+    //
+    // var request    = url.parse(location.hash);
+    // var Controller = router.route(request);
+
     var dom = [
         {
-        text:   '<div class="sectionIn">'+ 
-                    '<p>献给我最亲爱的老婆阿紫～<br>' +
-                        '情人节快乐！<br>' +
-                        '来自你的阿木 / 2016-02-14' +
-                    '</p>' +
-                    '<img src="img/qrcode.gif" width="220" height="220" class="qrcode" /> 扫码或微信长按二维码分享 <br>' +
-    //              '<br>' +
-    //                '<div class="tiny">' +
-    //                    '<a href="https://github.com/superwoods">' +
-    //                    '<img src="img/github.png" width="30%" alt="点击访问超级木木的" /><br>' +
-    //                    '点击访问超级木木的Github </a>' +
-    //                '</div>' +
-                    '<div class="license">' +
-                        '／后面还有哦／' +
-                    '</div>' + 
-                '</div>' 
+            name:   'section5',
+            text:   '<div class="sectionIn">'+
+                        '<p>献给'+ hash.set('to') +'<br>' +
+                            hash.set('wish') + '<br>' +
+                            '来自' + hash.set('from') +' / 2016-02-14' +
+                        '</p>' +
+                        '<img src="img/qrcode.gif" width="220" height="220" class="qrcode" /> 扫码或微信长按二维码分享 <br>' +
+                        '<div class="license">' +
+                            '／后面还有哦／' +
+                        '</div>' +
+                    '</div>'
         }, {
-        text:   '<div class="sectionIn">'+ 
-                    '<h2>特别感谢</h2>' +
-                    '<p>木木的React老师<a href="https://github.com/hayeah" class="textu">Howard</a>先森<br>' +
-                    'Google doodle／Github！</p>' +
-                    '<div class="btn">' +
-                        '<a href="https://github.com/superwoods">' +
-                        '访问超级木木的Github首页</a>' +
-                    '</div>' +
-                    '<div class="license">' +
-                        '<a href="https://github.com/superwoods">'+
-                            '本页面由 / 超级木木 / 木Studio 设计制作, ' +
-                            '我们使用MIT开源协议, 欢迎转载分享, '+
-                            '但请您务必保留我们的署名, 感谢！'+
-                        '</a>' +
-                    '</div>' +
-                '</div>'
+            name:   'section5',
+            text:   '<div class="sectionIn">'+
+                        '<h2>特别感谢</h2>' +
+                        '<p>木木的React老师<a href="https://github.com/hayeah" class="textu">Howard</a>先森<br>' +
+                        'Google doodle／Github！</p>' +
+                        '<div class="btn">' +
+                            '<a href="https://github.com/superwoods">' +
+                            '访问超级木木的Github首页</a>' +
+                        '</div>' +
+                        '<div class="license">' +
+                            '<a href="https://github.com/superwoods">'+
+                                '本页面由 / 超级木木 / 木Studio 设计制作, ' +
+                                '我们使用MIT开源协议, 欢迎转载分享, '+
+                                '但请您务必保留我们的署名, 感谢！'+
+                            '</a>' +
+                        '</div>' +
+                    '</div>'
        }
     ];
-    $('#section5').html(dom[0].text);
-    $('#section6').html(dom[1].text);
+
+    $('title').append(hash.set('to') + '--来自' + hash.set('from'));
+    $('#section5')[0].innerHTML = dom[0].text;
+    $('#section6')[0].innerHTML = dom[1].text;
+
+    /*
+    2016-02-14-23:22 备忘
+    ---
+    1、缺少二维码生成
+    x //2、缺少onhashchange？
+    3、少一个制作工具
+    x //4、发布前需要，打开jplayer自动播放！！！
+    x //5、缺少自动添加hash功能？
+    */
+
+    //===============================================
+    $('#title').html(defaultName.title);
+
     $('body').append('<div id="jquery_jplayer_1" class="jp-jplayer"></div>'+
                      '<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">' +
                          '<button class="jp-play iconPlay" role="button" tabindex="0">play</button>' +
                      '</div>');
-    
-    
+
+    //jPlayer
     $("#jquery_jplayer_1").jPlayer({
         ready: function (event) {
             $(this).jPlayer("setMedia", {
@@ -55,8 +353,8 @@ $(function(){
             });
             $(this).jPlayer("play").jPlayer("repeat");
         },
-        swfPath: "js",
-        supplied: "m4a, oga, mp3",
+        //swfPath: "js",
+        supplied: "mp3",
         wmode: "window",
         useStateClassSkin: true,
         autoBlur: false,
@@ -66,43 +364,86 @@ $(function(){
         toggleDuration: true,
         volume: 1
     });
-    
-//    var player = new jPlayerPlaylist({
-//        jPlayer: "#player",
-//        cssSelectorAncestor: "#playWindow"
-//    }, {
-//        mp3: 'media/Shayne-Ward-Until-You.mp3'
-//    }, {
-//        swfPath: "js/",
-//        supplied: "mp3",
-//        errorAlerts:true,
-//        //supplied: "m4v, mp3",
-//        wmode: "window",
-//        useStateClassSkin: true,
-//        autoBlur: true,
-//        smoothPlayBar: true,
-//        keyEnabled: true,
-//        remainingDuration: true,
-//        volume: 1,
-//        //size: {
-////            width: "650px",
-////            height: "380px"//,
-////            //cssClass: "jp-video-360p"
-////        },
-//        ready: function() {
-//            $(this).jPlayer("play").jPlayer("repeat");
-//            
-//            /*var $jpDetails = $('.jp-details');
-//            $jpDetails.show();*/
-//        }//,
-//        //play: function() { // To avoid multiple jPlayers playing together.
-////            $(this).jPlayer("pauseOthers");
-////        }
-//    });
-    
-    
+
+
+
 });
 
+// function MVCController () {
+//
+// }
+//
+// MVCController.prototype.execute = function (request) {
+//     var query        = request.query;
+//     var from         = query.from;
+//     //var to      = query.to;
+//     //var item         = query.item;
+//     var to           = query.to;
+//
+//     var request    = url.parse(location.hash);
+//     var Controller = router.route(request);
+//     var dom = [
+//         {
+//         text:   '<div class="sectionIn">'+
+//                     '<p>献给'+ hash.to() +'<br>' +
+//                         + hash.wish() + '<br>' +
+//                         '来自' + hash.from() +' / 2016-02-14' +
+//                     '</p>' +
+//                     '<img src="img/qrcode.gif" width="220" height="220" class="qrcode" /> 扫码或微信长按二维码分享 <br>' +
+//                     '<div class="license">' +
+//                         '／后面还有哦／' +
+//                     '</div>' +
+//                 '</div>'
+//         }, {
+//         text:   '<div class="sectionIn">'+
+//                     '<h2>特别感谢</h2>' +
+//                     '<p>木木的React老师<a href="https://github.com/hayeah" class="textu">Howard</a>先森<br>' +
+//                     'Google doodle／Github！</p>' +
+//                     '<div class="btn">' +
+//                         '<a href="https://github.com/superwoods">' +
+//                         '访问超级木木的Github首页</a>' +
+//                     '</div>' +
+//                     '<div class="license">' +
+//                         '<a href="https://github.com/superwoods">'+
+//                             '本页面由 / 超级木木 / 木Studio 设计制作, ' +
+//                             '我们使用MIT开源协议, 欢迎转载分享, '+
+//                             '但请您务必保留我们的署名, 感谢！'+
+//                         '</a>' +
+//                     '</div>' +
+//                 '</div>'
+//        }
+//     ];
+//
+//     $('#section5').html(dom[0].text);
+//     $('#section6').html(dom[1].text);
+//
+//
+//     console.log(query);
+//
+// };
+
+// var currentController;
+// locator.start(function () {
+//     var request = url.parse(location.hash);
+//     var Controller = router.route(request);
+//
+//     console.log('Controller: ' + Controller);
+//     console.log(request.query);
+//
+//     if (Controller) {
+//         //if (currentController) {
+// //            currentController.dispose();
+// //            currentController = null;
+// //        }
+//         var controller = new Controller();
+//         controller.execute(request);
+//     }
+//     else {
+//         //alert(404);
+//         console.log('locator.start: 404');
+//         //tinyTip(tipsTxt);
+//     }
+// });
 
 
 
@@ -113,7 +454,7 @@ window.onload = function() {
     updateSliderControl();
     addSmoothScrolling();
 };
- 
+
 // 使用 onscroll 回调函数来更新 slider
 window.onscroll = function() {
   updateSliderControl();
