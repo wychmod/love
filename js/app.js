@@ -252,7 +252,7 @@ var hash = {
     query: url.parse(),
     judge: function(cons, defaultName){
         //console.log(cons !== defaultName);
-        if(cons !== defaultName){
+        if(cons !== defaultName && cons !== undefined){
             return cons;
         }
         else {
