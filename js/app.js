@@ -1,7 +1,7 @@
 ﻿// @St. 2016-01-27-17.14
 //      2016-02-13-08.36
 // init controller
-var controller = new ScrollMagic.Controller();
+//var controller = new ScrollMagic.Controller();
 
 // 当页面加载完毕时开始动画。
 window.onload = function() {
@@ -18,11 +18,14 @@ window.onscroll = function() {
 
 var ani = {
     init: function (){
-        this.logo();
-        this.robot();
+        this.logo("#react-logo");
+        this.logo("#ani1");
+        this.logo("#ani2");
+        this.logo("#ani3");
+        //this.robot();
     },
-    logo: function (){
-        TweenMax.fromTo("#react-logo", 2, {
+    logo: function (tag){
+        TweenMax.fromTo(tag, 2, {
             // from
             css: {
               y: 0,
@@ -40,14 +43,14 @@ var ani = {
             ease: Sine.easeInOut
             }
         );
-    },
-    robot: function () {
-       var tag = "#android-robot";
-       //var tag = document.querySelectorAll("#android-robot");
-       var t = new TimelineMax({yoyo: true, repeat: -1, ease: Sine.easeInOut});
-           t.to(tag, 1, {rotation: '-=10deg'})
-            .to(tag, 1, {rotation: '+=20deg'}); // 可以使用 += / -= 在原有角度上做动画
-    },
+    }//,
+//    robot: function () {
+//       var tag = "#android-robot";
+//       //var tag = document.querySelectorAll("#android-robot");
+//       var t = new TimelineMax({yoyo: true, repeat: -1, ease: Sine.easeInOut});
+//           t.to(tag, 1, {rotation: '-=10deg'})
+//            .to(tag, 1, {rotation: '+=20deg'}); // 可以使用 += / -= 在原有角度上做动画
+//    },
       // create a scene
   // var scene1 = new ScrollMagic.Scene({
   //         duration: 100,  // the scene should last for a scroll distance of 100px
@@ -55,9 +58,9 @@ var ani = {
   //     })
   //     .setPin("#my-sticky-element") // pins the element for the the scene's duration
   //     .addTo(controller); // assign the scene to the controller
-    scene1: function(){
-
-    }
+    //scene1: function(){
+//
+//    }
 };
 
 
@@ -68,14 +71,14 @@ var ani = {
 
 
 // build scene
-var scene = new ScrollMagic.Scene({
-                    triggerElement: "#intro-section",
-                    triggerHook: "onLeave" ,
-                    duration: window.innerHeight
-                })
-                .setTween("#mask", {opacity: 1}) // trigger a TweenMax.to tween
-                .addIndicators({name: "1 (duration: 0)"}) // add indicators (requires plugin)
-                .addTo(controller);
+//var scene = new ScrollMagic.Scene({
+//                    triggerElement: "#intro-section",
+//                    triggerHook: "onLeave" ,
+//                    duration: window.innerHeight
+//                })
+//                .setTween("#mask", {opacity: 1}) // trigger a TweenMax.to tween
+//                .addIndicators({name: "1 (duration: 0)"}) // add indicators (requires plugin)
+//                .addTo(controller);
 
 
 function updateSliderControl() {
