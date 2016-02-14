@@ -424,8 +424,7 @@ th {
   padding: 0;
 }
 body,
-div,
-span {
+div {
     box-sizing: border-box;
     position: relative;
     display: -webkit-box;
