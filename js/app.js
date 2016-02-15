@@ -40,52 +40,52 @@ var hashKey = {
 // var timeout3;
 // var timeout4;
 
-var href = {
-    convert: function(toggle){
-
-        var array = [];
-        var url;
-        var href;
-        var key = '?';
-        var hrefKey;
-
-        console.log(toggle);
-
-        if (!toggle || toggle ==='go' || toggle === 'off') {
-            array = location.hash.match(/\d+/g);
-            url = homepageMobile + key + array;
-
-            console.log('off: ' + url);
-
-            return url;
-        }
-
-        if (toggle === 'back' || toggle === 'on') {
-            href    = location.href;
-            hrefKey = href.indexOf(key);
-            if (hrefKey !== -1) {
-                array = href.slice(hrefKey + 1).split(',');
-
-                console.log(array);
-
-                url = homepage + hashKey.from + array[0] + hashKey.to + array[1] + hashKey.item + array[2] + hashKey.album + array[3];
-
-                console.log('back: ' + url);
-
-
-            }
-        }
-        else {
-            url = homepage + defaultHash;
-        }
-
-
-        return url;
-        //console.log('href.convert done!: ' + url);
-
-        //return url;
-    }
-};
+// var href = {
+//     convert: function(toggle){
+//
+//         var array = [];
+//         var url;
+//         var href;
+//         var key = '?';
+//         var hrefKey;
+//
+//         console.log(toggle);
+//
+//         if (!toggle || toggle ==='go' || toggle === 'off') {
+//             array = location.hash.match(/\d+/g);
+//             url = homepageMobile + key + array;
+//
+//             console.log('off: ' + url);
+//
+//             return url;
+//         }
+//
+//         if (toggle === 'back' || toggle === 'on') {
+//             href    = location.href;
+//             hrefKey = href.indexOf(key);
+//             if (hrefKey !== -1) {
+//                 array = href.slice(hrefKey + 1).split(',');
+//
+//                 console.log(array);
+//
+//                 url = homepage + hashKey.from + array[0] + hashKey.to + array[1] + hashKey.item + array[2] + hashKey.album + array[3];
+//
+//                 console.log('back: ' + url);
+//
+//
+//             }
+//         }
+//         else {
+//             url = homepage + defaultHash;
+//         }
+//
+//
+//         return url;
+//         //console.log('href.convert done!: ' + url);
+//
+//         //return url;
+//     }
+// };
 
 
 // // 初始化判断hash和href (需要重新 逻辑关系可能会有问题 @2015-12-01-17.23)
@@ -160,10 +160,30 @@ var href = {
 //     }
 // };
 var url = {
+    //var strTo = {
+    // unicode: function (str) {
+    //
+    //     // return escape(str).toLocaleLowerCase().replace(/%u/gi, '\\u');
+    //     return escape(encodeURIComponent(str));
+    // },
+    // GBK: function (str) {
+    //     //var str = str.decodeURIComponent();
+    //     //return unescape(decodeURIComponent(str).replace(/\\u/gi, '%u'));
+    //     console.log(str);
+    //     console.log(decodeURIComponent(str).replace(/\\u/gi, '%u'));
+    //
+    //     return unescape(str);
+    // },
+    //};
+    // decode: function (str) {
+    //
+    //     // return escape(str).toLocaleLowerCase().replace(/%u/gi, '\\u');
+    //     return decodeURI(str);
+    // },
     parse: function (hash) {
-        var hash = window.location.href;
-
-        //console.log(hash.lastIndexOf(hashKey.key));
+        var hash  = window.location.href || location.hash;
+        // var _this = this;
+        // console.log(hash.lastIndexOf(hashKey.key));
 
 
         // var newHash = '';
@@ -173,17 +193,19 @@ var url = {
         // else {
         //     newHash = hash;
         // }
-        var newHash = hash;
+
+        var newHash = hash; // 关闭hash判断模块 @St. 2016-02-15-10.57
+
         //console.log('newHash: ' + newHash);
         //var queryIndex = newHash.indexOf(hashKey.symbol.key);
         var key = '?d=';
         var keyLen = key.length;
 
-        console.log(keyLen);
+        // console.log(keyLen);
 
         var queryIndex = newHash.lastIndexOf(key);
 
-        console.log(newHash.slice(queryIndex + keyLen));
+        // console.log(newHash.slice(queryIndex + keyLen));
 
         var query = {};
         if (queryIndex !== -1) {
@@ -193,8 +215,16 @@ var url = {
                 .reduce(function (result, item) {
                         item = item.split('=');
                         if (item[0]) {
+
+                            // console.log(typeof item[1]);
+                            // console.log(_this.decode(item[1]));
+                            //
+                            // result[item[0]] = decodeURI(item[1]);
                             result[item[0]] = item[1];
                         }
+
+                        //console.log(result);
+
                         return result;
                     }, query);
             newHash = newHash.slice(0, queryIndex);
@@ -204,11 +234,17 @@ var url = {
         //     //path:  newHash.slice(1),
         //     //query: query
         // };
+
+        console.log(query);
+
         return query;
 
 
     }
 };
+
+//console.log(url.unicode(''));
+
 // var rules = [{
 //     hash:    hashKey.key,
 //     handler: MVCController
@@ -219,8 +255,13 @@ var url = {
 //     router.addRule(rule.hash, rule.handler);
 // });
 
-
-
+// var f = encodeURI('李易峰');
+// var t = encodeURI('小慧慧');
+// var w = encodeURI('我爱你哦');
+// var h = '?d=f=' + f + '&w=' + w + '&t=' + t;
+// console.log('hash: ' + h);
+//
+// location.hash = h;
 
 // var hash = {
 //     cons: url.parse(location.hash),
@@ -253,7 +294,8 @@ var hash = {
     judge: function(cons, defaultName){
         //console.log(cons !== defaultName);
         if(cons !== defaultName && cons !== undefined){
-            return cons;
+            //console.log(cons);
+            return decodeURI(cons);
         }
         else {
             return defaultName;
@@ -264,14 +306,23 @@ var hash = {
         //console.log(key);
         //console.log(query);
         if (key){
+            /*
+              开发备忘  @St. 2016-02-15-11.08
+              ---
+              1、这里考虑是否可以使用 forEach 或者 reduce来做？
+              2、或者考虑将这个判断添加至 url.parse()?
+            */
             if (key === 'to'){
-                return this.judge(query.t, defaultName.to);
+                return this.judge(query.to, defaultName.to);
             }
             else if (key === 'from') {
-                return this.judge(query.f, defaultName.from);
+                return this.judge(query.from, defaultName.from);
             }
             else if (key === 'wish') {
-                return this.judge(query.w, defaultName.wish);
+                return this.judge(query.wish, defaultName.wish);
+            }
+            else if (key === 'title') {
+                return this.judge(query.title, defaultName.title);
             }
         }
     }
@@ -296,12 +347,9 @@ $(function(){
                         //'<p>献给'+ hash.set('to') +'<br>' +
                             //hash.set('wish') + '<br>' +
                             //'来自' + hash.set('from') +' / 2016-02-14' +
-
                         '<p>献给<span id="hashTo"></span><br>' +
                             '<span id="hashWish"></span><br>' +
                             '来自<span id="hashFrom"></span> / 2016-02-14' +
-
-
                         '</p>' +
                         '<img src="img/qrcode.gif" width="220" height="220" class="qrcode" /> 扫码或微信长按二维码分享 <br>' +
                         '<div class="license">' +
@@ -329,41 +377,50 @@ $(function(){
        }
     ];
 
+    // section5 & section6 添加dom
     $('#section5')[0].innerHTML = dom[0].text;
     $('#section6')[0].innerHTML = dom[1].text;
 
 
-    // unicode
+    // 给dom添加 hash截取的 3个字符串 to, wish和from（同时包含 decodeURI 转码过程）
     $('#hashTo').text(hash.set('to'));
     $('#hashWish').text(hash.set('wish'));
     $('#hashFrom').text(hash.set('from'));
 
-    $('title').append($('#hashTo').text() + '--来自' + $('#hashFrom').text());
 
     /*
     2016-02-14-23:22 备忘
     ---
     1、缺少二维码生成
-    x //2、缺少onhashchange？
+    √ //2、缺少onhashchange？
     3、少一个制作工具
-    x //4、发布前需要，打开jplayer自动播放！！！
+    4、发布前需要，打开jplayer自动播放！！！
     x //5、缺少自动添加hash功能？
     */
 
-    //===============================================
-    $('#title').html(defaultName.title);
 
+
+    // 给封面title添加 hash截取的 title 字符串（同时包含 decodeURI 转码过程）
+    $('#title').text(hash.set('title'));
+
+
+    // 替换title标签文字
+    $('title').append($('#hashTo').text() + '--来自' + $('#hashFrom').text());
+
+
+
+    // 添加 jplayer 播放控件 dom
     $('body').append('<div id="jquery_jplayer_1" class="jp-jplayer"></div>'+
                      '<div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">' +
                          '<button class="jp-play iconPlay" role="button" tabindex="0">play</button>' +
                      '</div>');
-
-    //jPlayer
+    // 初始化 jPlayer
     $("#jquery_jplayer_1").jPlayer({
         ready: function (event) {
             $(this).jPlayer("setMedia", {
                 mp3: 'media/Shayne-Ward-Until-You.mp3'
             });
+            // 设置自动播放，iOS safari 受安全限制无效，wechat可以自动播放
             $(this).jPlayer("play").jPlayer("repeat");
         },
         //swfPath: "js",
