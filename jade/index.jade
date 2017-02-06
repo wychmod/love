@@ -1,0 +1,53 @@
+- const title = '致我的爱人'
+doctype
+html
+    head
+        meta(charset="utf-8")
+        meta(http-equiv="X-UA-Compatible" content="IE=edge,chrome=1")
+        meta(name="renderer" content="webkit")
+        title #{title}
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        meta(name="apple-mobile-web-app-title" content="#{title}")
+        link(rel="apple-touch-icon-precomposed" href="img/hvd.svg")
+        link(rel="stylesheet" href="bundle/index.min.css")
+    body
+        .wechat
+            img(src="img/wechat.jpg" width="300" height="300" alt="#{title}")
+        .section.section1#section1
+            .section.overlay
+                img(src="img/wechat.jpg" width="85%" alt="#{title}")#hvd
+                .bigTile#title For my honey
+        .section.flexRow#section2
+            img(src="img/valentines-day-2016.gif")#ani1
+            .sectionIn
+                p 如果你是咖啡壶～<br>
+                | 我愿意做你的摩卡杯，<br>
+                | 你会因我而沸腾...
+        .section.flexRow#section3
+            img(src="img/valentines-day-2016.2.gif")#ani2
+            br
+            br
+            .sectionIn
+                p 如果你是一卷手纸～<br>
+                | 我愿意做一盒纸抽，<br>
+                | 我会永远陪伴你！
+        .section.section4#section4
+            img(src="img/valentines-day-2016.3.gif")#ani3
+            br
+            br
+            .sectionIn
+                p 如果你是小刺猬～<br>
+                | 我愿意做你的仙人球，<br>
+                | 就是要和你成为一对！
+        .section.section5#section5
+        .section.section6#section6
+        .slider-control#slider-control
+            - for(let i=1, j=6; i<=j; i++) {
+                a(href="#section#{i}")
+                    .dot
+            - }
+        script(src="lib/jq.js")
+        script(src="lib/jquery.jplayer.min.js")
+        script(src="lib/TweenMax.min.js")
+        script(src="lib/ScrollToPlugin.min.js")
+        script(src="bundle/index.min.js")

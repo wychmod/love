@@ -36,3 +36,10 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
+# @St.
+*.psd
+*.psb
+lib-master/
+# local/
+sundries/
+PSD/
