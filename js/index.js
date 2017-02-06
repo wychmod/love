@@ -6,133 +6,95 @@
  * @Email:  st_sister@me.com
  * @Filename: app.js
 * @Last modified by:   SuperMoo
-* @Last modified time: 2017-02-06-14:49:09
+* @Last modified time: 2017-02-06-15:30:07
  * @License: MIT
  */
 
-const defaultName = {
-    title: 'For my honey',
-    from: '阿木',
-    to: '-阿紫～',
-    wish: '情人节快乐！'
-};
+$(() => {
+    const defaultText = {
+        from: '阿木',
+        to: '-阿紫～',
+        wish: '情人节快乐！'
+    };
 
-const hashKey = {
-    key: '?d~',
-    from: 'f=',
-    to: 't=',
-    wish: 'w='
-};
-
-const parse = function() {
-    var query = {};
-    var hash = window.location.href || location.hash;
-    var newHash = hash; // 关闭hash判断模块 @St. 2016-02-15-10.57
-    console.log('newHash: ' + newHash);
-    var key = hashKey.key;
-    var keyLen = key.length;
-    var queryIndex = newHash.lastIndexOf(key);
-    if (queryIndex !== -1) {
-        query = newHash
-            .slice(queryIndex + keyLen) //'?d~'
-            .split('&')
-            .reduce(function(result, item) {
-                item = item.split('=');
-                if (item[0]) {
-                    result[item[0]] = item[1];
-                }
-                return result;
-            }, query);
-        newHash = newHash.slice(0, queryIndex);
-    }
-    console.log(query);
-    return query;
-};
-const hash = {
-    judge: function(cons, defaultName) {
-        if (cons !== defaultName && cons !== undefined) {
-            return decodeURI(cons);
-        } else {
-            return defaultName;
+    const hashHandler = () => {
+        let href = window.location.href;
+        href = decodeURI(href);
+        console.log(href);
+        let array = [];
+        if (href.indexOf('?') !== 0) {
+            array = href.split('?');
+            array = array[1].split(',')
         }
-    },
-    set: function(key, query) {
-        if (key && query) {
-            return this.judge(query[key], defaultName[key]);
-            // if (key === 'to') {
-            //
-            // } else if (key === 'from') {
-            //     return this.judge(query.from, defaultName.from);
-            // } else if (key === 'wish') {
-            //     return this.judge(query.wish, defaultName.wish);
-            // } else if (key === 'title') {
-            //     return this.judge(query.title, defaultName.title);
-            // }
-        }
-    }
-};
 
-$(function() {
+        console.log(array);
+
+        let from = array[0] || defaultText.from;
+        let to = array[1] || defaultText.to;
+        let wish = array[2] || defaultText.wish;
+
+        return {
+            from: from,
+            to: to,
+            wish: wish,
+        };
+    };
+
+    const d = new Date();
+    const year = d.getFullYear();
+
     var dom = [{
         name: 'section5',
-        text: '<div class="sectionIn">' +
-            '<p>献给<span id="hashTo"></span><br>' +
-            '<span id="hashWish"></span><br>' +
-            '来自<span id="hashFrom"></span> / 2016-02-14' +
-            '</p>' +
-            '<img src="img/qrcode.gif" width="220" height="220" class="qrcode" /> 扫码或微信长按二维码分享 <br>' +
-            '<div class="license">' +
-            '／后面还有哦／' +
-            '</div>' +
-            '</div>'
+        text: `
+        <div class="sectionIn">
+            <p>
+                献给<span id="hashTo"></span>, <br>
+                <span id="hashWish"></span><br>
+                来自<span id="hashFrom"></span><br>
+                ${year}-02-14
+            </p>
+            <img src="img/qrcode.gif" width="220" height="220" class="qrcode" /> 扫码或微信长按二维码分享 <br>
+            <div class="license">
+                ／后面还有哦／
+            </div>
+        </div>
+        `
     }, {
         name: 'section5',
-        text: '<div class="sectionIn">' +
-            '<h2>特别感谢</h2>' +
-            '<p>木木的React老师<a href="https://github.com/hayeah" class="textu">Howard</a>先森<br>' +
-            'Google doodle／Github！</p>' +
-            '<div class="btn">' +
-            '<a href="https://github.com/superwoods">' +
-            '访问超级木木的Github首页</a>' +
-            '</div>' +
-            '<div class="license">' +
-            '<a href="https://github.com/superwoods">' +
-            '本页面由 / 超级木木 / 木Studio 设计制作, ' +
-            '我们使用MIT开源协议, 欢迎转载分享, ' +
-            '但请您务必保留我们的署名, 感谢！' +
-            '</a>' +
-            '</div>' +
-            '</div>'
+        text: `
+        <div class="sectionIn">
+            <div class="btn2">
+                <a href="do.html">
+                我也想制作一个</a>
+                </div>
+            </div>
+            <div class="btn">
+                <a href="https://github.com/superwoods">
+                访问超级木木的Github首页</a>
+            </div>
+            <div class="license">
+                <a href="https://github.com/superwoods">
+                本页面由 / 超级木木 / 木Studio 设计制作,
+                我们使用MIT开源协议, 欢迎转载分享,
+                但请您务必保留我们的署名, 感谢！</a>
+            </div>
+        </div>
+        `
     }];
 
     // section5 & section6 添加dom
     $('#section5')[0].innerHTML = dom[0].text;
     $('#section6')[0].innerHTML = dom[1].text;
 
-    const query = parse();
-    // 给dom添加 hash截取的 3个字符串 to, wish和from（同时包含 decodeURI 转码过程）
-    $('#hashTo').text(hash.set('to', query));
-    $('#hashWish').text(hash.set('wish', query));
-    $('#hashFrom').text(hash.set('from', query));
+    const text = hashHandler();
 
-    /*
-    2016-02-14-23:22 备忘
-    ---
-    1、缺少二维码生成
-    √ //2、缺少onhashchange？
-    3、少一个制作工具
-    4、发布前需要，打开jplayer自动播放！！！
-    x //5、缺少自动添加hash功能？
-    */
+    console.log(text);
 
-    // 给封面title添加 hash截取的 title 字符串（同时包含 decodeURI 转码过程）
-    $('#title').text(hash.set('title'));
-
-
-    // 替换title标签文字
-    $('title').append($('#hashTo').text() + '--来自' + $('#hashFrom').text());
-
-
+    $('#hashTo').text(text.to);
+    $('#hashWish').text(text.wish);
+    $('#hashFrom').text(text.from);
+    $('#title').text(text.to + text.wish);
+    // $('title').append($('#hashTo').text() + '--来自' + $('#hashFrom').text());
 
     // 添加 jplayer 播放控件 dom
     $('body').append('<div id="jquery_jplayer_1" class="jp-jplayer"></div>' +

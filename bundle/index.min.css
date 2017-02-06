@@ -697,6 +697,20 @@ a {
     background-size    : 45% auto;
 }
 
+.btn2 a {
+    display            : block;
+    border-radius      : 8px;
+    border             : #FFFFFF 1px solid;
+    width              : 176px;
+    text-align         : center;
+    padding            : 10px;
+    margin             : 0 auto 50px;
+    background-image   : none;
+    background-position: left center;
+    background-repeat  : no-repeat;
+    background-size    : 45% auto;
+}
+
 .license {
     font-size  : 12px;
     line-height: 14px;
