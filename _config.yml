@@ -1,0 +1,8 @@
+title: Love
+description: for My Wife
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-midnight
+
+gems:
+  - jekyll-mentions
