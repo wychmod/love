@@ -1,4 +1,4 @@
-# for My Wife
+# for My GrilFriend
 
-http://cjmm.github.io/love/ 
+http://wychmod.github.io/love/ 
 
