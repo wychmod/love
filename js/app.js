@@ -4,8 +4,8 @@
 
 // var defaultName = {
 //     title: null,//'For my honey',
-//     from: null,//'阿木',
-//     to: null,//'我最亲爱的老婆阿紫～',
+//     from: null,//'阿轩',
+//     to: null,//'我最亲爱的女朋友阿婷～',
 //     wish: null,//'情人节快乐！'
 // };
 
@@ -73,8 +73,8 @@ var text = url.parse();
 var hash = {
     //query: url.parse(location.hash),
     query: text.t ? text : {
-        t: '阿紫',
-        f: '木木',
+        t: '阿婷',
+        f: '阿轩',
         w: '爱你一辈子',
     },
     // judge: function (cons, defaultName) {
@@ -155,14 +155,12 @@ $(function () {
                 '<p>木木的React老师<a href="https://github.com/hayeah" class="textu">Howard</a>先森<br>' +
                 'Google doodle／Github！</p>' +
                 '<div class="btn">' +
-                '<a href="https://github.com/superwoods">' +
-                '访问超级木木的Github首页</a>' +
+                '<a href="https://github.com/wychmod">' +
+                '访问wychmod的Github首页</a>' +
                 '</div>' +
                 '<div class="license">' +
-                '<a href="https://github.com/superwoods">' +
-                '本页面由 / 超级木木 / 木Studio 设计制作, ' +
-                '我们使用MIT开源协议, 欢迎转载分享, ' +
-                '但请您务必保留我们的署名, 感谢！' +
+                '<a href="https://github.com/wychmod">' +
+                '本页面由 / 超级木木 / 木Studio 开源, wychmod修改 ' +
                 '</a>' +
                 '</div>' +
                 '</div>'
