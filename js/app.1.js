@@ -6,8 +6,8 @@
 //var controller = new ScrollMagic.Controller();
 var defaultName = {
     title: null,//'For my honey',
-    from: null,//'阿木',
-    to: null,//'我最亲爱的老婆阿紫～',
+    from: null,//'阿轩',
+    to: null,//'我最亲爱的女朋友阿婷～',
     wish: null,//'情人节快乐！'
 };
 
